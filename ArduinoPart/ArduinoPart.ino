@@ -1,9 +1,14 @@
 #include "FastLED.h"
-#define NUM_LEDS 140
-#define PIN 6
+
+#define PIN         6
+#define NUM_LEDS    40
+#define BRIGHTNESS  64
+#define LED_TYPE    WS2811
+#define COLOR_ORDER BRG
 
 String received_effect;
-int a,b,c, bn;
+int a,b,c;
+String break_;
 
 CRGB leds[NUM_LEDS];
 
@@ -14,7 +19,7 @@ void setup() {
   Serial.println("");
   delay(100);
   Serial.println("Start Serial Monitor listening...");
-  FastLED.addLeds<WS2811, PIN, BRG>(leds, NUM_LEDS); 
+  FastLED.addLeds<WS2811, PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalSMD5050 );
 }
 
 void loop() {
@@ -22,7 +27,7 @@ void loop() {
   if(Serial.available() > 0) {
       received_effect = Serial.readStringUntil('\n');
       if(received_effect == "rgb") {
-        delay(10000);  //delay for debugging with Serial monitor
+        Serial.setTimeout(5000);  //delay for debugging with Serial monitor
         received_effect = Serial.readStringUntil(',');
         a = received_effect.toInt();
         Serial.print("\nR: "); //debugging
@@ -38,21 +43,31 @@ void loop() {
         for(int i=0; i<=NUM_LEDS; i++) {
            leds[i].setRGB( a, b, c);
         }
-        FastLED.show();
-        Serial.println("\nColor has been changed\n");
+       FastLED.show();
+       Serial.println("\nColor has been changed\n");
       }
-//      if(received_effect=="br") {
-//        delay(1000);
-//        received_effect = Serial.readStringUntil('\n');
-//        bn = received_effect.toInt();
-//        for(int i=0; i<=NUM_LEDS; i++) {
-//          leds[i] %= bn;
-//        }
-//        FastLED.setBrightness(bn);
-//        FastLED.show();
-//        Serial.print("\nBrightness has been changed to ");
-//        Serial.print(bn, DEC);
-//        Serial.println();
-//      }
+      
+      if(received_effect == "rainbow") {
+        Serial.println("Rainbow = 1");
+        rainbow();
+      }
+  }
+}
+void rainbow() {
+  Serial.setTimeout(1000);
+  break_=Serial.readStringUntil('\n');
+  if(break_ != "0") {
+    Serial.setTimeout(1);
+    while(break_ != "0") {
+      static uint8_t starthue = 0;
+      fill_rainbow( leds + 5, NUM_LEDS - 5, --starthue, 20);
+      FastLED.setTemperature( Tungsten100W );
+      leds[0] = Tungsten100W;
+      FastLED.show();
+      FastLED.delay(8);
+      break_=Serial.readStringUntil('\n');
     }
+  }
+  Serial.println("Rainbow = 0");
+  Serial.setTimeout(10000);
 }
