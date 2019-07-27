@@ -25,7 +25,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   if(Serial.available() > 0) {
-      received_effect = Serial.readStringUntil('\n');
+      received_effect = Serial.readString();
       if(received_effect == "rgb") {
         Serial.setTimeout(5000);  //delay for debugging with Serial monitor
         received_effect = Serial.readStringUntil(',');
@@ -36,7 +36,7 @@ void loop() {
         b = received_effect.toInt();
         Serial.print("\nG: "); //debugging
         Serial.print(b, DEC);
-        received_effect = Serial.readStringUntil('\n');
+        received_effect = Serial.readStringUntil('/');
         c = received_effect.toInt();
         Serial.print("\nB: "); //debugging
         Serial.print(c, DEC);
@@ -45,17 +45,20 @@ void loop() {
         }
        FastLED.show();
        Serial.println("\nColor has been changed\n");
+       received_effect = Serial.readString();
       }
       
-      if(received_effect == "rainbow") {
+      else if(received_effect == "rainbow") {
         Serial.println("Rainbow = 1");
         rainbow();
+      } else {
+        Serial.println("Nie rozpoznano komendy");
       }
   }
 }
 void rainbow() {
   Serial.setTimeout(1000);
-  break_=Serial.readStringUntil('\n');
+  break_=Serial.readString();
   if(break_ != "0") {
     Serial.setTimeout(1);
     while(break_ != "0") {
@@ -65,9 +68,8 @@ void rainbow() {
       leds[0] = Tungsten100W;
       FastLED.show();
       FastLED.delay(8);
-      break_=Serial.readStringUntil('\n');
+      break_=Serial.readString();
     }
   }
   Serial.println("Rainbow = 0");
-  Serial.setTimeout(10000);
 }
