@@ -1,6 +1,6 @@
 # LED Controller
 
-## About app
+### About app
 
 Application with GUI written in python to control WS2811 LED strip connected to 
 arduino with two (as yet) simple options: Rainbow and static color.
@@ -11,7 +11,7 @@ arduino with two (as yet) simple options: Rainbow and static color.
 * [Arduino IDE](https://www.arduino.cc/en/main/software)
 * Arduino
 
-#### Installation
+### Installation
 
 1. Clone repository
 
