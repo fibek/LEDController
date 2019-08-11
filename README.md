@@ -1,6 +1,6 @@
 # LED Controller
 
-## About app
+### About app
 
 Application with GUI written in python to control WS2811 LED strip connected to 
 arduino with two (as yet) simple options: Rainbow and static color.
@@ -11,7 +11,7 @@ arduino with two (as yet) simple options: Rainbow and static color.
 * [Arduino IDE](https://www.arduino.cc/en/main/software)
 * Arduino
 
-#### Installation
+### Installation
 
 1. Clone repository
 
@@ -21,9 +21,13 @@ git clone https://github.com/Fibek/LEDController
 2. Open Arduino IDE
 3. Open ArduinoPart.ino
 4. Choose your board and port
-![alt text](https://github.com/Fibek/LEDController/src/scr3_board_processor_port.png "Choose port, board, and processor")
+
+![screen1](https://github.com/Fibek/LEDController/tree/master/src/scr3_board_processor_port.png)
+
 5. Set your macros
-![alt text](https://github.com/Fibek/LEDController/src/scr4_define.png "Set your macros")
+
+![screen2](https://github.com/Fibek/LEDController/tree/master/src/scr4_define.png)
+
 7. Go to directory where you've cloned repository
 8. Run conrtoller.py
 
