@@ -9,7 +9,7 @@
 String received_effect;
 int a,b,c;
 String break_;
-
+int r1, g1, b1, r2, g2, b2, rng1t, rng1f, rng2f, rng2t;
 CRGB leds[NUM_LEDS];
 
 void setup() {
@@ -18,7 +18,6 @@ void setup() {
   Serial.println("======Arduino-Live-LED-System====");
   Serial.println("");
   delay(100);
-  Serial.println("Start Serial Monitor listening...");
   FastLED.addLeds<WS2811, PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalSMD5050 );
 }
 
@@ -51,6 +50,37 @@ void loop() {
       else if(received_effect == "rainbow") {
         Serial.println("Rainbow = 1");
         rainbow();
+      } 
+      else if(received_effect == "dblrngrgb") {
+        Serial.setTimeout(5000);
+        received_effect = Serial.readStringUntil(',');
+        r1 = received_effect.toInt();
+        received_effect = Serial.readStringUntil(',');
+        g1 = received_effect.toInt();
+        received_effect = Serial.readStringUntil(',');
+        b1 = received_effect.toInt();
+        received_effect = Serial.readStringUntil(':');
+        rng1f = received_effect.toInt();
+        received_effect = Serial.readStringUntil('/');
+        rng1t = received_effect.toInt();
+        received_effect = Serial.readStringUntil(',');
+        r2 = received_effect.toInt();
+        received_effect = Serial.readStringUntil(',');
+        g2 = received_effect.toInt();
+        received_effect = Serial.readStringUntil(',');
+        b2 = received_effect.toInt();
+        received_effect = Serial.readStringUntil(':');
+        rng2f = received_effect.toInt();
+        received_effect = Serial.readStringUntil('/');
+        rng2t = received_effect.toInt();
+        for(int i = rng1f; i<=rng1t; i++) {
+          leds[i].setRGB(r1, g1, b1);
+        }
+        for(int i = rng2f; i<=rng2t; i++) {
+          leds[i].setRGB(r2, g2, b2);
+        }
+        FastLED.show();
+        received_effect = Serial.readString();
       } else {
         Serial.println("Nie rozpoznano komendy");
       }
