@@ -29,7 +29,7 @@ git clone https://github.com/Fibek/LEDController
 ![screen2](https://github.com/Fibek/LEDController/tree/master/src/scr4_define.png)
 
 7. Go to directory where you've cloned repository
-8. Run controller.py (if your device port != /dev/USB0, first change it in controller.py using text editor
+8. Run controller.py (if your device port != /dev/ttyUSB0, first change it in controller.py using text editor
 
 ```
 ./controller.py
